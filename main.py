@@ -25,3 +25,9 @@ class XML():
 		self.Xmaxes = []
 		self.Ymaxes = []
 		self.diameter = diameter
+	def calc(self):
+		for x in len(self.x):
+			self.Xmins.append(self.x[x] - (self.diameter/2))
+			self.Ymins.append(self.y[x] - (self.diameter/2))
+			self.Xmaxes.append(self.x[x] + (self.diameter/2))
+			self.Ymaxes.append(self.y[x] + (self.diameter/2))
