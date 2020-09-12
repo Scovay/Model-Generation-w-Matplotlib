@@ -13,3 +13,15 @@ class Curves():
 		self.y = self.slope * self.x + self.yIntercept
 	def write(self, color = 'blue', marker = 'o'):
 		plt.scatter(self.x, self.y, c = color, marker = marker)
+		return marker
+
+class XML():
+	def __init__(self, x, y, marker, diameter = 10):
+		self.marker = marker
+		self.x = x
+		self.y = y
+		self.Xmins = []
+		self.Ymins = []
+		self.Xmaxes = []
+		self.Ymaxes = []
+		self.diameter = diameter
