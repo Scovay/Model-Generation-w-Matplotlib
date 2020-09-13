@@ -64,6 +64,8 @@ class XML():
 class Graph():
 	def __init__(self, color = "white", width = 10, height = 6):
 		plt.figure(figsize=(width,height),facecolor = color)
+		self.colors = ["aqua", "black", "blue", "fuchsia", "gray", "green", "lime", "maroon", "navy", "olive", "purple", "red", "silver", "teal", "white", "yellow"]
+		self.markers = ['o', 'v', '^', '<', '>', '8', 's', 'p', '*', 'h', 'H', 'D', 'd', 'P', 'X']
 	def setupCurve(self):
 		plot1 = int(input("Enter point 1: "))
 		plot2 = int(input("Enter point 2: "))
@@ -80,5 +82,13 @@ class Graph():
 		else:
 			self.curve = Curves(plot1, plot2, numOfPoints, yIntercept, slope)
 	def setupXML(self):
-		marker = input("Enter the marker code: ")
-		self.XML = XML(self.x, self.y, marker)
+		self.XML = XML(self.x, self.y, self.marker)
+	def runCurve(self):
+		self.x, self.y = self.curve.createAxis()
+		color = input("Enter your color: ")
+		self.marker = input("Enter your marker code: ")
+		if not (color or self.marker):
+			colorIndex = rand.randint(0,len(self.colors))
+			markerIndex = rand.randint(0,len(self.markers))
+			color = self.colors(colorIndex)
+			self.marker = self.markers(markerIndex)
