@@ -98,3 +98,7 @@ class Graph():
 		self.XML.calc()
 		self.XML.writeToXML()
 
+
+run = Graph()
+run.setupCurve
+run.runCurve
