@@ -67,32 +67,20 @@ class Graph():
 		self.colors = ["aqua", "black", "blue", "fuchsia", "gray", "green", "lime", "maroon", "navy", "olive", "purple", "red", "silver", "teal", "white", "yellow"]
 		self.markers = ['o', 'v', '^', '<', '>', '8', 's', 'p', '*', 'h', 'H', 'D', 'd', 'P', 'X']
 	def setupCurve(self):
-		plot1 = int(input("Enter point 1: "))
-		plot2 = int(input("Enter point 2: "))
-		numOfPoints = int(input("Enter the number of points: "))
-		yIntercept = int(input("Enter the Y intercept: "))
-		slope = int(input("Enter the slope: "))
-		if not (plot1 or plot2 or numOfPoints or yIntercept or slope):
-			plot1 = 0
-			plot2 = rand.randint(10, 25)
-			numOfPoints = rand.randint(20, 50)
-			yIntercept = rand.randint(0, 10)
-			slope = rand.randint()
-			self.curve = Curves(plot1, plot2, numOfPoints, yIntercept, slope)
-		else:
-			self.curve = Curves(plot1, plot2, numOfPoints, yIntercept, slope)
+		plot1 = 0
+		plot2 = rand.randint(10, 25)
+		numOfPoints = rand.randint(20, 50)
+		yIntercept = rand.randint(0, 10)
+		slope = rand.randint(0,10)
+		self.curve = Curves(plot1, plot2, numOfPoints, yIntercept, slope)
 	def setupXML(self):
 		self.XML = XML(self.x, self.y, self.marker)
 	def runCurve(self):
 		self.x, self.y = self.curve.createAxis()
-		color = input("Enter your color: ")
-		self.marker = input("Enter your marker code: ")
-		if not (color or self.marker):
-			colorIndex = rand.randint(0,len(self.colors))
-			markerIndex = rand.randint(0,len(self.markers))
-			color = self.colors(colorIndex)
-			self.marker = self.markers(markerIndex)
-		
+		colorIndex = rand.randint(0,len(self.colors))
+		markerIndex = rand.randint(0,len(self.markers))
+		color = self.colors[colorIndex]
+		self.marker = self.markers[markerIndex]
 		self.curve.write(color, self.marker)
 	def runXML(self):
 		self.XML.calc()
@@ -100,5 +88,7 @@ class Graph():
 
 
 run = Graph()
-run.setupCurve
-run.runCurve
+run.setupCurve()
+run.runCurve()
+run.setupXML()
+run.runXML()
