@@ -92,3 +92,5 @@ class Graph():
 			markerIndex = rand.randint(0,len(self.markers))
 			color = self.colors(colorIndex)
 			self.marker = self.markers(markerIndex)
+		
+		self.curve.write(color, self.marker)
