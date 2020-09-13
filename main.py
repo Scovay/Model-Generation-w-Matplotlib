@@ -17,6 +17,7 @@ class Curves():
 	def createAxis(self):
 		self.x = np.linspace(self.point1,self.point2, num = self.numOfPoints)
 		self.y = self.slope * self.x + self.yIntercept
+		return self.x, self.y
 	def write(self, color = 'blue', marker = 'o'):
 		plt.scatter(self.x, self.y, c = color, marker = marker)
 		plt.show()
@@ -80,3 +81,4 @@ class Graph():
 			self.curve = Curves(plot1, plot2, numOfPoints, yIntercept, slope)
 	def setupXML(self):
 		marker = input("Enter the marker code: ")
+		self.XML = XML(self.x, self.y, marker)
