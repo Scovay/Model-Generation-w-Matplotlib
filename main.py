@@ -94,3 +94,7 @@ class Graph():
 			self.marker = self.markers(markerIndex)
 		
 		self.curve.write(color, self.marker)
+	def runXML(self):
+		self.XML.calc()
+		self.XML.writeToXML()
+
