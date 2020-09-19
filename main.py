@@ -30,25 +30,32 @@ class Curve():
         # All the marker's avalible
         self.markers = ['o', 'v', '^', '<', '>', '8', 's', 'p', '*', 'h', 'H', 'D', 'd', 'P', 'X']
 
-    def generate(self):
+    def generate(self, typeOfCurve = 1):
         print("Generating Curve...")
 
-        # This randomly creates numpy array varibles
-        plot1 = 0
-        plot2 = rand.randint(10, 20)
+        # This randomly creates numpy x array varibles
+        startPoint = 0
+        endPoint = rand.randint(10, 30)
         numOfPoints = rand.randint(20, 30)
-        yIntercept = rand.randint(0, 25)
-        slope = rand.randint(-15,15)
+
+        # Generates the numpy x array to generate the matplotlib model
+        self.x = np.linspace(startPoint, endPoint, num = numOfPoints)
+
+        # This if statment is designed to generate the numpy y array
+        if typeOfCurve == 1:
+            yIntercept = rand.randint(0, 10)
+            slope = rand.randint(-5, 5)
+            self.y = slope * self.x + yIntercept
+        elif typeOfCurve == 2:
+            amplitude = rand.randint(1, 5)
+            period = rand.randint(5,10)
+            self.y = amplitude*np.sin(self.x*period)
 
         # Randomly selects the color and marker out of a list
         colorIndex = rand.randint(0,len(self.colors)-1)
         markerIndex = rand.randint(0,len(self.markers)-1)
         self.color = self.colors[colorIndex]
         self.marker = self.markers[markerIndex]
-
-        # Generates the Numpy array to generate the matplotlib model
-        self.x = np.linspace(plot1, plot2, num = numOfPoints)
-        self.y = slope * self.x + yIntercept
 
         return self
 
@@ -98,7 +105,7 @@ class XML():
                 # Gets the curve that's being written into XML
                 c = curves[i]
 
-                # Defines the lists of the true pixel value= t
+                # Defines the lists of the true pixel value
                 x_pxl = self.xx[i]
                 y_pxl = self.yy[i]
 
@@ -107,10 +114,10 @@ class XML():
                     f.write("\t<object>\n")
                     f.write("\t\t<name>{}</name>\n".format(self.markerDictionary[c.marker]))
                     f.write("\t\t<bndbox>\n")
-                    f.write("\t\t\t<xmin>{:d}</xmin>\n".format(int(x_pxl[n] - 5)))
-                    f.write("\t\t\t<ymin>{:d}</ymin>\n".format(int(y_pxl[n] - 5)))
-                    f.write("\t\t\t<xmax>{:d}</xmax>\n".format(int(x_pxl[n] + 5)))
-                    f.write("\t\t\t<ymax>{:d}</ymax>\n".format(int(y_pxl[n] + 5)))
+                    f.write("\t\t\t<xmin>{:d}</xmin>\n".format(round(x_pxl[n] - 7)))
+                    f.write("\t\t\t<ymin>{:d}</ymin>\n".format(round(y_pxl[n] - 7)))
+                    f.write("\t\t\t<xmax>{:d}</xmax>\n".format(round(x_pxl[n] + 7)))
+                    f.write("\t\t\t<ymax>{:d}</ymax>\n".format(round(y_pxl[n] + 7)))
                     f.write("\t\t\t<pose>Unspecified</pose>\n")
                     f.write("\t\t<truncated>1</truncated>\n")
                     f.write("\t\t<difficult>0</difficult>\n")
@@ -139,10 +146,14 @@ class Graph():
         self.width = 640
         self.height = 480
 
-    def addCurve(self):
+    def addCurve(self, curveType = 0):
+        # This if statement is used to automaticly generate a shape
+        if curveType == 0:
+            curveType = rand.randint(1,2)
+
         # Creates the curve class and generates a x and y
         c = Curve()
-        self.curves.append(c.generate())
+        self.curves.append(c.generate(curveType))
 
     def plot(self):
         # Setup ax varible
@@ -153,6 +164,7 @@ class Graph():
         # Plots the curve
         for c in self.curves:
             plt.scatter(c.x, c.y, c = c.color, marker = c.marker)
+            # line, = ax.plot(c.x, c.y, c = c.color)
         
         # Gets mins and maxes of the graph
         xmin, xmax, ymin, ymax = plt.axis()
@@ -184,14 +196,29 @@ class Graph():
         plt.savefig(self.filename)
 
         # Displays the graph
-        plt.show()
-
+        # plt.show()
+ 
     def write(self):
         self.xml.write(self.curves)
 
-# run statments
-graph = Graph("line.png")
-graph.addCurve()
-graph.addCurve()
-graph.plot()
-graph.write()
+# This input statement askes the user how many sets they want to generate
+iterations = int(input("Enter how many sets you want: "))
+
+# This list holds what type of curve it'll generate  
+curveTypes = []
+
+# This for loop creates however many plots the user wants
+for x in range(iterations):
+    # This generates the filenames of each set
+    filename = "Noline" + str(x + 1) + ".png"
+
+    # This for loop generates which type of curve will be in the set
+    for _ in range(2):
+        curveTypes.append(rand.randint(1,2))
+
+    # This runs the graph class
+    graph = Graph(filename)
+    graph.addCurve(curveTypes[0])
+    graph.addCurve(curveTypes[1])
+    graph.plot()
+    graph.write()
